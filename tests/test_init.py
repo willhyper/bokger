@@ -1,4 +1,8 @@
+'''
+can monkey patch
+'''
+
 from bokger import logger
+print = logger.log
 
-
-logger.log("hello world")
+print(f"hello world")
