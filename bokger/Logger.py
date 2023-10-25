@@ -3,18 +3,11 @@ __author__ = 'chaoweichen26@gmail.com'
 import numpy as np
 
 from bokeh.layouts import column
-from bokeh.models import LayoutDOM
-from bokeh.models import ColumnDataSource
-from bokeh.models import PreText
-from bokeh.models import Div
-from bokeh.models import Paragraph
-from bokeh.models import DataTable
-from bokeh.models import TableColumn
-from bokeh.models import DateFormatter
+from bokeh import models
 from bokeh.plotting import figure, output_file, show, save
 from .models.DownloadCsvButton import downloadCsvButton
 from .models.DownloadTxtButton import downloadTxtButton
-from .utilities.TimeStamp import get_timestamp_str
+from .utilities.TimeStamp import get_timestamp_str, _datetime_format
 
 startTime = get_timestamp_str()
 
@@ -24,7 +17,7 @@ class Bokger:
 
     def log_code(self, message : str):
         print(message)
-        dom = PreText(text=message, width=1000)
+        dom = models.PreText(text=message, width=1000)
         self.layoutDOM.append(dom)
 
     def log_image(self, im0 : np.array):
@@ -44,14 +37,18 @@ class Bokger:
 
     def log_table(self, table):
         print(table)
-        source = ColumnDataSource(table) # table should be same length dict
+        source = models.ColumnDataSource(table) # table should be same length dict
         columns = []
         for col in table.columns:
-            col_type = table[col].dtype            
-            tc = TableColumn(field=col, title=col, formatter=DateFormatter(format=_datetime_format)) if np.issubdtype(col_type, np.datetime64) else TableColumn(field=col, title=col)
+            col_type = table[col].dtype
+            if np.issubdtype(col_type, np.datetime64):
+                _formatter = models.DateFormatter(format=_datetime_format)
+                tc = models.TableColumn(field=col, title=col, formatter=_formatter)
+            else:
+                tc = models.TableColumn(field=col, title=col)
             columns.append(tc)
         # https://docs.bokeh.org/en/latest/docs/reference/models/widgets/tables.html            
-        data_table = DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="stretch_both")
+        data_table = models.DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="stretch_both")
         self.log(data_table)
         button = downloadCsvButton(table)
         self.log(button)
@@ -63,12 +60,12 @@ class Bokger:
             self._log(repr(domlikes))
 
     def _log(self, domlike):        
-        if isinstance(domlike, LayoutDOM):
+        if isinstance(domlike, models.LayoutDOM):
             dom = domlike                    
         else:
             timestamped_msg = f"{get_timestamp_str()}: {domlike}"
             print(timestamped_msg)
-            dom = Paragraph(text=timestamped_msg, width=1000)
+            dom = models.Paragraph(text=timestamped_msg, width=1000)
         self.layoutDOM.append(dom)
 
     def show(self, html_path : str):
