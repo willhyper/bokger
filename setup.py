@@ -22,7 +22,6 @@ setup(
     tests_require=[
         'pytest',
         'junit2html',
-        'twine',
     ],
 )
 
