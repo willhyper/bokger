@@ -4,9 +4,11 @@ can use decorator to log i/o
 __author__ = "chaoweichen26@gmail.com"
 
 from bokger import dec
+from time import sleep
 
-@dec.log_io
+@dec.log
 def my_fn(num1 : int, num2 : int, num3 : int , num4 : int):
+    sleep(0.1)
     return num1+num2+num3+num4
 
 my_fn(1,2,num3=3, num4=4)

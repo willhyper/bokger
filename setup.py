@@ -18,6 +18,7 @@ setup(
     install_requires=[        
         "bokeh",
         "numpy",
+        "pydecor",
     ],
     tests_require=[
         'pytest',

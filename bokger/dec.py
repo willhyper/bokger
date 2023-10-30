@@ -1,6 +1,8 @@
-from functools import wraps
-from .Logger import logger
-import time
+__author__ = 'chaoweichen26@gmail.com'
+
+from pydecor import Decorated, instead
+from time import time
+from bokger import logger
 
 def _repr(*args, **kwargs) -> str:
     _args = ', '.join([repr(a) for a in args])
@@ -14,43 +16,15 @@ def _repr(*args, **kwargs) -> str:
     else:
         return ""
 
+def _record_io_and_time(dec: Decorated):
+    _start = time()
+    _result = dec.wrapped(*dec.args, **dec.kwargs)
+    _end = time()
+    _elapsed_sec = _end - _start
+    _args = _repr(*dec.args, **dec.kwargs)
+    _module_method_name = dec.wrapped.__qualname__
+    _msg = f"{_module_method_name}({_args}) -> {dec.result}"
+    _elapsed_msg = "" if _elapsed_sec < 0.001 else f" # elapsed {_elapsed_sec:.3f} seconds"
+    logger.log(_msg + _elapsed_msg)
 
-def log_io(fn, _do = logger.log):
-    @wraps(fn)
-    def _dec(*args, **kwargs):
-        _return = fn(*args, **kwargs)
-        _do(f"{fn.__name__}({_repr(*args, **kwargs)})={_return}")
-        return _return
-    return _dec
-
-def log_time(fn, _do = logger.log):
-    @wraps(fn)
-    def _dec(*args, **kwargs):
-        _start = time.time()        
-        _return = fn(*args, **kwargs)
-        _end = time.time()
-        _elapsed = _end - _start
-        
-        _do(f"{fn.__name__}({_repr(*args, **kwargs)}) elapsed {_elapsed} seconds.")
-        return _return
-    return _dec
-
-def log(clz, _do = logger.log):
-    @wraps(clz, updated=()) #https://stackoverflow.com/questions/6394511/python-functools-wraps-equivalent-for-classes
-    class wrapped_clz(clz):
-        def __getattribute__(self, name):
-            attr = object.__getattribute__(self, name)
-            
-            if not callable(attr): return attr
-            fn = attr
-            
-            @wraps(name)
-            def wrapped_fn(*args, **kwargs):
-                _return = attr(*args, **kwargs)
-                _do(f"{type(self).__name__}.{fn.__name__}({_repr(*args, **kwargs)})={_return}")
-                return _return
-            return wrapped_fn
-
-    return wrapped_clz
-
-
+log = instead(_record_io_and_time)
