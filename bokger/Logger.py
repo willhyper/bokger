@@ -9,13 +9,13 @@ from .models.DownloadCsvButton import downloadCsvButton
 from .models.DownloadTxtButton import downloadTxtButton
 from .models.CopyToClipboardButton import copyToClipboardButton
 
-from .utilities.TimeStamp import get_timestamp_str, _datetime_format
+from .utilities.TimeStamp import get_timestamp_str, get_datetime_str, _datetime_format
 
 
 class Bokger:
     def __init__(self):
         self.layoutDOM : list = []
-        self.startTime = get_timestamp_str()
+        self.startTime = get_datetime_str()
 
     def log_code(self, message : str):
         print(message)
