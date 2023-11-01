@@ -68,7 +68,7 @@ class Bokger:
         if isinstance(domlike, models.LayoutDOM):
             dom = domlike                    
         else:
-            timestamped_msg = f"{get_timestamp_str()}: {domlike}"
+            timestamped_msg = f"{domlike} # {get_timestamp_str()}"
             print(timestamped_msg)
             dom = models.Paragraph(text=timestamped_msg, width=1000)
         self.layoutDOM.append(dom)
