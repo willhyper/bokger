@@ -1,9 +1,7 @@
 __author__ = 'chaoweichen26@gmail.com'
 
-from pydecor import instead, after
-from bokger import _dec_io_and_time, logger, database
+from pydecor import instead
+from bokger import _dec_io_and_time, logger, op_table
 
-_dec_html = instead(_dec_io_and_time.log, log= logger.log)
-_dec_db = after(database.push)
+log = instead(_dec_io_and_time.log, subscribers=[logger.log, op_table.append])
 
-log = _dec_db(_dec_html)
