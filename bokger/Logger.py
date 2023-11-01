@@ -19,7 +19,10 @@ class Bokger:
 
     def log_code(self, message : str):
         print(message)
-        dom = models.PreText(text=message, width=1000)
+        dom = models.PreText(text=message, width=1000,
+                             styles={'background-color': '#EBECE4',
+                                    }
+                             )
         self.layoutDOM.append(dom)
         button = copyToClipboardButton(message)
         self.log(button)
