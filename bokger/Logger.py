@@ -2,7 +2,7 @@ __author__ = 'chaoweichen26@gmail.com'
 
 import numpy as np
 
-from bokeh.layouts import column
+from bokeh.layouts import column, row
 from bokeh import models
 from bokeh.plotting import figure, output_file, show, save
 from .models.DownloadCsvButton import downloadCsvButton
@@ -23,9 +23,8 @@ class Bokger:
                              styles={'background-color': '#EBECE4',
                                     }
                              )
-        self.layoutDOM.append(dom)
         button = copyToClipboardButton(message)
-        self.log(button)
+        self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
 
     def log_div(self, message : str):
         print(message)
@@ -33,9 +32,8 @@ class Bokger:
                              styles={'background-color': '#EBECE4',
                                     }
                              )
-        self.layoutDOM.append(dom)        
         button = copyToClipboardButton(message)
-        self.log(button)
+        self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))        
 
     def log_image(self, im0 : np.array):
         dw, dh = im0.shape
@@ -66,10 +64,9 @@ class Bokger:
             columns.append(tc)
         # https://docs.bokeh.org/en/latest/docs/reference/models/widgets/tables.html            
         data_table = models.DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="stretch_both")
-        self.log(data_table)
         button = downloadCsvButton(table)
-        self.log(button)
-
+        self.log(row(data_table, button, sizing_mode = "scale_width"))
+        
     def log(self, *domlikes):
         if len(domlikes) == 1:
             self._log(domlikes[0])
