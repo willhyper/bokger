@@ -27,6 +27,15 @@ class Bokger:
         button = copyToClipboardButton(message)
         self.log(button)
 
+    def log_div(self, message : str):
+        print(message)
+        dom = models.Div(text=message, width=1000,
+                             styles={'background-color': '#EBECE4',
+                                    }
+                             )
+        self.layoutDOM.append(dom)        
+        button = copyToClipboardButton(message)
+        self.log(button)
 
     def log_image(self, im0 : np.array):
         dw, dh = im0.shape
