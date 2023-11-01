@@ -4,7 +4,10 @@ setup(
     name='bokger',
     packages=find_packages(where='src',),
     package_data={        
-        'bokger.models' : ['DownloadCsv.js','DownloadTxt.js']
+        'bokger.models' : ['DownloadCsv.js',
+                           'DownloadTxt.js',
+                           'CopyToClipboard',
+                           ]
         },
     version=__version__,
     description='A logging package that generates debugging information in html.',

@@ -7,6 +7,8 @@ from bokeh import models
 from bokeh.plotting import figure, output_file, show, save
 from .models.DownloadCsvButton import downloadCsvButton
 from .models.DownloadTxtButton import downloadTxtButton
+from .models.CopyToClipboardButton import copyToClipboardButton
+
 from .utilities.TimeStamp import get_timestamp_str, _datetime_format
 
 startTime = get_timestamp_str()
@@ -19,6 +21,9 @@ class Bokger:
         print(message)
         dom = models.PreText(text=message, width=1000)
         self.layoutDOM.append(dom)
+        button = copyToClipboardButton(message)
+        self.log(button)
+
 
     def log_image(self, im0 : np.array):
         dw, dh = im0.shape
