@@ -5,10 +5,14 @@ from bokeh.models import ColumnDataSource, CustomJS
 from bokeh.models.widgets import Button
 import os
 
+_js_path = os.path.join(os.path.dirname(__file__),"DownloadCsv.js")
+_js_code = open(_js_path).read()
+
 def downloadCsvButton(data, button_label: str = "Download table as csv")-> Button:
     source = ColumnDataSource(data) # same-len dict
     button = Button(label=button_label, button_type="success")
-    button.js_on_click(CustomJS(args=dict(source=source),code=open(os.path.join(os.path.dirname(__file__),"DownloadCsv.js")).read()))
+    _js = CustomJS(args=dict(source=source),code=_js_code)
+    button.js_on_click(_js)
     return button
 
 if __name__ =='__main__':
