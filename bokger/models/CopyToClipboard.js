@@ -1,1 +1,1 @@
-navigator.clipboard.writeText(message);
+navigator.clipboard.writeText(txt);
