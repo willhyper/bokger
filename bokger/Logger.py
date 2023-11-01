@@ -11,11 +11,11 @@ from .models.CopyToClipboardButton import copyToClipboardButton
 
 from .utilities.TimeStamp import get_timestamp_str, _datetime_format
 
-startTime = get_timestamp_str()
 
 class Bokger:
     def __init__(self):
         self.layoutDOM : list = []
+        self.startTime = get_timestamp_str()
 
     def log_code(self, message : str):
         print(message)
@@ -75,14 +75,14 @@ class Bokger:
 
     def show(self, html_path : str):
         '''save and open browser'''
-        html_path = f"{html_path}.{startTime}.html"
+        html_path = f"{html_path}.{self.startTime}.html"
         output_file(filename = html_path, mode='inline')
         
         show(column(*self.layoutDOM))
 
     def save(self, html_path : str):
         '''save only'''
-        html_path = f"{html_path}.{startTime}.html"
+        html_path = f"{html_path}.{self.startTime}.html"
         output_file(filename = html_path, mode='inline')
         
         save(column(*self.layoutDOM))
