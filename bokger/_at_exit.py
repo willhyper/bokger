@@ -14,9 +14,9 @@ def log_last_exception():
         t = getattr(sys,'last_type') # not always defined. #https://docs.python.org/3/library/sys.html#sys.exc_info
         v = getattr(sys,'last_value')
         tb = getattr(sys,'last_traceback')
-        formatted_lines = traceback.format_exception(t,v,tb)
-        for line in formatted_lines:
-            logger.log_code(line)
+        _exp = traceback.format_exception(t,v,tb)
+        formatted_lines = '\n'.join(_exp).replace("\\n","\n").replace("\\t","\t")        
+        logger.log_code(formatted_lines)
     except AttributeError: 
         pass
 
