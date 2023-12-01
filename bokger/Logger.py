@@ -63,9 +63,11 @@ class Bokger:
                 tc = models.TableColumn(field=col, title=col)
             columns.append(tc)
         # https://docs.bokeh.org/en/latest/docs/reference/models/widgets/tables.html            
-        data_table = models.DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="stretch_both")
+        data_table = models.DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="scale_both")
         button = downloadCsvButton(table)
-        self.log(row(data_table, button, sizing_mode = "scale_width"))
+        dom = row(data_table, button, sizing_mode = "scale_width")
+        self.layoutDOM.append(dom)
+        
         
     def log(self, *domlikes):
         if len(domlikes) == 1:

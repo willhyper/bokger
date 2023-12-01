@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 from bokger import __version__
 setup(
     name='bokger',
-    packages=find_packages(where='src',),
+    packages=find_packages(),
     package_data={        
         'bokger.models' : ['DownloadCsv.js',
                            'DownloadTxt.js',
-                           'CopyToClipboard',
+                           'CopyToClipboard.js',
                            ]
         },
     version=__version__,
