@@ -22,6 +22,7 @@ setup(
         "bokeh",
         "numpy",
         "pydecor",
+        "rich",
     ],
     tests_require=[
         'pytest',

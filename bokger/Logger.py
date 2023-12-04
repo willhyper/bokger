@@ -10,7 +10,7 @@ from .models.DownloadTxtButton import downloadTxtButton
 from .models.CopyToClipboardButton import copyToClipboardButton
 
 from .utilities.TimeStamp import get_timestamp_str, get_datetime_str, _datetime_format
-
+from rich import print
 
 class Bokger:
     def __init__(self):
@@ -26,10 +26,11 @@ class Bokger:
         button = copyToClipboardButton(message)
         self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
 
-    def log_div(self, message : str):
+    def log_div(self, message : str, **_styles):
         print(message)
         dom = models.Div(text=message, width=1000,
                              styles={'background-color': '#EBECE4',
+                                     **_styles
                                     }
                              )
         button = copyToClipboardButton(message)
@@ -63,7 +64,7 @@ class Bokger:
                 tc = models.TableColumn(field=col, title=col)
             columns.append(tc)
         # https://docs.bokeh.org/en/latest/docs/reference/models/widgets/tables.html            
-        data_table = models.DataTable(source=source, columns=columns, width=1600, autosize_mode="fit_columns", sizing_mode="scale_both")
+        data_table = models.DataTable(source=source, columns=columns, width=1600, sizing_mode="scale_both")
         button = downloadCsvButton(table)
         dom = row(data_table, button, sizing_mode = "scale_width")
         self.layoutDOM.append(dom)
