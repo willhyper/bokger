@@ -16,7 +16,7 @@ def log_last_exception():
         tb = getattr(sys,'last_traceback')
         _exp = traceback.format_exception(t,v,tb)
         formatted_lines = '\n'.join(_exp).replace("\\n","\n").replace("\\t","\t")        
-        logger.log_code(formatted_lines)
+        logger.log_pretext(formatted_lines)
     except AttributeError: 
         pass
 

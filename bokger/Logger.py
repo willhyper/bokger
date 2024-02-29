@@ -11,13 +11,18 @@ from .models.CopyToClipboardButton import copyToClipboardButton
 
 from .utilities.TimeStamp import get_timestamp_str, get_datetime_str, _datetime_format
 from rich import print
+import inspect
 
 class Bokger:
     def __init__(self):
         self.layoutDOM : list = []
         self.startTime = get_datetime_str()
 
-    def log_code(self, message : str):
+    def log_source(self, co):
+        _src = inspect.getsource(co)
+        self.log_pretext(_src)
+
+    def log_pretext(self, message):        
         print(message)
         dom = models.PreText(text=message, width=1000,
                              styles={'background-color': '#EBECE4',
@@ -26,7 +31,7 @@ class Bokger:
         button = copyToClipboardButton(message)
         self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
 
-    def log_div(self, message : str, **_styles):
+    def log_div(self, message : str, **_styles):        
         print(message)
         dom = models.Div(text=message, width=1000,
                              styles={'background-color': '#EBECE4',
