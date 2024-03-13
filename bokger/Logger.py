@@ -97,7 +97,7 @@ class Bokger:
             
     def show(self, html_path : str):
         '''save and open browser'''
-        html_path = f"{html_path}.{self.startTime}.html"
+        html_path = f"{html_path}.{self.startTime}.html".replace("/","").replace(":","")
         output_file(filename = html_path, mode='inline')
         
         show(column(*self.layoutDOM))
