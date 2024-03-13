@@ -1,7 +1,7 @@
 __author__ = 'chaoweichen26@gmail.com'
 
 import numpy as np
-
+import json
 from bokeh.layouts import column, row
 from bokeh import models
 from bokeh.plotting import figure, output_file, show, save
@@ -73,23 +73,28 @@ class Bokger:
         button = downloadCsvButton(table)
         dom = row(data_table, button, sizing_mode = "scale_width")
         self.layoutDOM.append(dom)
-        
-        
+  
     def log(self, *domlikes):
-        if len(domlikes) == 1:
-            self._log(domlikes[0])
-        else:
-            self._log(repr(domlikes))
+        for domlike in domlikes:
+            self._log(domlike)
 
-    def _log(self, domlike):        
+    def _log(self, domlike):                
         if isinstance(domlike, models.LayoutDOM):
-            dom = domlike                    
+            self.layoutDOM.append(domlike)
+        elif isinstance(domlike, str):
+            _str = domlike            
+            print(_str)
+            dom = models.Paragraph(text=_str, width=1000)
+            self.layoutDOM.append(dom)
         else:
-            timestamped_msg = f"{domlike} # {get_timestamp_str()}"
-            print(timestamped_msg)
-            dom = models.Paragraph(text=timestamped_msg, width=1000)
-        self.layoutDOM.append(dom)
-
+            obj = domlike
+            try:
+                _str : str = json.dumps(obj, indent=2, separators=(",", ": "))
+            except:                
+                _str : str = repr(obj)            
+            timestamped_msg = f"{_str} # {get_timestamp_str()}"
+            self.log_pretext(timestamped_msg)
+            
     def show(self, html_path : str):
         '''save and open browser'''
         html_path = f"{html_path}.{self.startTime}.html"
