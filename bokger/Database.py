@@ -7,7 +7,7 @@ db_path = os.path.join(_dir, '.sqlite')
 class _Database:
     def __init__(self):
         # os.remove(db_path) # debug
-        self.conn = db.connect(db_path) # creates file
+        self.conn = db.connect(db_path, check_same_thread=False) # creates file
     def __del__(self):
         self.conn.close()
     def _delete(self):
