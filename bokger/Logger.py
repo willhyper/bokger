@@ -22,15 +22,6 @@ class Bokger:
         _src = inspect.getsource(co)
         self.log_pretext(_src)
 
-    def log_pretext(self, message):        
-        print(message)
-        dom = models.PreText(text=message, width=1000,
-                             styles={'background-color': '#EBECE4',
-                                    }
-                             )
-        button = copyToClipboardButton(message)
-        self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
-
     def log_div(self, message : str, **_styles):        
         print(message)
         dom = models.Div(text=message, width=1000,
@@ -83,9 +74,8 @@ class Bokger:
             self.layoutDOM.append(domlike)
         elif isinstance(domlike, str):
             _str = domlike            
-            print(_str)
-            dom = models.Paragraph(text=_str, width=1000)
-            self.layoutDOM.append(dom)
+            timestamped_msg = f"{_str} # {get_timestamp_str()}"
+            self.log_pretext(timestamped_msg)            
         else:
             obj = domlike
             try:
@@ -95,6 +85,15 @@ class Bokger:
             timestamped_msg = f"{_str} # {get_timestamp_str()}"
             self.log_pretext(timestamped_msg)
             
+    def log_pretext(self, message):        
+        print(message)
+        dom = models.PreText(text=message, width=1000,
+                             styles={'background-color': '#EBECE4',
+                                    }
+                             )
+        button = copyToClipboardButton(message)
+        self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
+
     def show(self, html_path : str):
         '''save and open browser'''
         html_path = f"{html_path}.{self.startTime}.html".replace("/","").replace(":","")
