@@ -6,7 +6,8 @@ from bokeh.layouts import column, row
 from bokeh import models
 from bokeh.plotting import figure, output_file, show, save
 from .models.DownloadCsvButton import downloadCsvButton
-from .models.DownloadTxtButton import downloadTxtButton
+from .models.DownloadFileButton import downloadFileButton
+
 from .models.CopyToClipboardButton import copyToClipboardButton
 
 from .utilities.TimeStamp import get_timestamp_str, get_datetime_str, _datetime_format
@@ -63,6 +64,16 @@ class Bokger:
         data_table = models.DataTable(source=source, columns=columns, width=1600, sizing_mode="scale_both")
         button = downloadCsvButton(table)
         dom = row(data_table, button, sizing_mode = "scale_width")
+        self.layoutDOM.append(dom)
+  
+    def log_file(self, filepath : str):
+        print(filepath)
+        filepath_dom = models.PreText(text=filepath, width=1000,
+                             styles={'background-color': '#EBECE4',
+                                    }
+                             )
+        button = downloadFileButton(filepath)
+        dom = row(filepath_dom, button, sizing_mode = "scale_width")
         self.layoutDOM.append(dom)
   
     def log(self, *domlikes):

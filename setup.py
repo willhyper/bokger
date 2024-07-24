@@ -5,7 +5,7 @@ setup(
     packages=find_packages(),
     package_data={        
         'bokger.models' : ['DownloadCsv.js',
-                           'DownloadTxt.js',
+                           'DownloadFile.js',
                            'CopyToClipboard.js',
                            ]
         },
