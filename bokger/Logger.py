@@ -26,9 +26,8 @@ class Bokger:
     def log_div(self, message : str, **_styles):        
         print(message)
         dom = models.Div(text=message, width=1000,
-                             styles={'background-color': '#EBECE4',
-                                     **_styles
-                                    }
+                            
+                            
                              )
         button = copyToClipboardButton(message)
         self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))        
@@ -69,8 +68,8 @@ class Bokger:
     def log_file(self, filepath : str):
         print(filepath)
         filepath_dom = models.PreText(text=filepath, width=1000,
-                             styles={'background-color': '#EBECE4',
-                                    }
+                            
+                            
                              )
         button = downloadFileButton(filepath)
         dom = row(filepath_dom, button, sizing_mode = "scale_width")
@@ -99,8 +98,8 @@ class Bokger:
     def log_pretext(self, message):        
         print(message)
         dom = models.PreText(text=message, width=1000,
-                             styles={'background-color': '#EBECE4',
-                                    }
+                             
+                             
                              )
         button = copyToClipboardButton(message)
         self.layoutDOM.append(row(dom, button, sizing_mode="scale_width"))
